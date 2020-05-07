@@ -13,10 +13,10 @@ namespace Scorelink.MO
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ScorelinkEntities : DbContext
+    public partial class ScorelinkEntities1 : DbContext
     {
-        public ScorelinkEntities()
-            : base("name=ScorelinkEntities")
+        public ScorelinkEntities1()
+            : base("name=ScorelinkEntities1")
         {
         }
     
@@ -25,11 +25,11 @@ namespace Scorelink.MO
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AccTitleDict> AccTitleDicts { get; set; }
-        public virtual DbSet<DocumentArea> DocumentAreas { get; set; }
-        public virtual DbSet<DocumentDetail> DocumentDetails { get; set; }
-        public virtual DbSet<DocumentInfo> DocumentInfoes { get; set; }
-        public virtual DbSet<OCRResult> OCRResults { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<AccTitleDict> AccTitleDict { get; set; }
+        public virtual DbSet<DocumentArea> DocumentArea { get; set; }
+        public virtual DbSet<DocumentDetail> DocumentDetail { get; set; }
+        public virtual DbSet<DocumentInfoes> DocumentInfoes { get; set; }
+        public virtual DbSet<OCRResult> OCRResult { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

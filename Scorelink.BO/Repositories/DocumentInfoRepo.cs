@@ -12,7 +12,7 @@ namespace Scorelink.BO.Repositories
     {
         public IEnumerable<DocumentInfoModel> GetList(string id)
         {
-            ScorelinkEntities db = new ScorelinkEntities();
+            ScorelinkEntities1 db = new ScorelinkEntities1();
             try
             {
                 var query = (from doc in db.DocumentInfoes
@@ -35,13 +35,13 @@ namespace Scorelink.BO.Repositories
 
         public string Add(DocumentInfoModel item)
         {
-            using (ScorelinkEntities db = new ScorelinkEntities())
+            using (ScorelinkEntities1 db = new ScorelinkEntities1())
             {
                 using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        var docInfo = new DocumentInfo
+                        var docInfo = new DocumentInfoes
                         {
                             FileUID = item.FileUID,
                             FileName = item.FileName,

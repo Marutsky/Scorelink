@@ -17,8 +17,8 @@ namespace Scorelink.MO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DocumentDetail()
         {
-            this.DocumentAreas = new HashSet<DocumentArea>();
-            this.OCRResults = new HashSet<OCRResult>();
+            this.DocumentArea = new HashSet<DocumentArea>();
+            this.OCRResult = new HashSet<OCRResult>();
         }
     
         public int DocId { get; set; }
@@ -34,9 +34,9 @@ namespace Scorelink.MO
         public Nullable<System.DateTime> CreateDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DocumentArea> DocumentAreas { get; set; }
-        public virtual DocumentInfo DocumentInfo { get; set; }
+        public virtual ICollection<DocumentArea> DocumentArea { get; set; }
+        public virtual DocumentInfoes DocumentInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OCRResult> OCRResults { get; set; }
+        public virtual ICollection<OCRResult> OCRResult { get; set; }
     }
 }

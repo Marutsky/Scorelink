@@ -12,12 +12,12 @@ namespace Scorelink.MO
     using System;
     using System.Collections.Generic;
     
-    public partial class DocumentInfo
+    public partial class DocumentInfoes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DocumentInfo()
+        public DocumentInfoes()
         {
-            this.DocumentDetails = new HashSet<DocumentDetail>();
+            this.DocumentDetail = new HashSet<DocumentDetail>();
         }
     
         public int DocId { get; set; }
@@ -25,9 +25,9 @@ namespace Scorelink.MO
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public string CreateBy { get; set; }
-        public byte[] CreateDate { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DocumentDetail> DocumentDetails { get; set; }
+        public virtual ICollection<DocumentDetail> DocumentDetail { get; set; }
     }
 }

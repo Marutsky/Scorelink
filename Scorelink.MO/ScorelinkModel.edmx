@@ -32,7 +32,7 @@
           <Property Name="AreaPath" Type="varchar" MaxLength="500" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
-          <Property Name="UpdateDate" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
         <EntityType Name="DocumentDetail">
           <Key>
@@ -51,7 +51,7 @@
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="DocumentInfo">
+        <EntityType Name="DocumentInfoes">
           <Key>
             <PropertyRef Name="DocId" />
           </Key>
@@ -60,7 +60,7 @@
           <Property Name="FileName" Type="varchar" MaxLength="250" />
           <Property Name="FilePath" Type="varchar" MaxLength="250" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
-          <Property Name="CreateDate" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="CreateDate" Type="datetime" />
         </EntityType>
         <EntityType Name="OCRResult">
           <Key>
@@ -78,26 +78,17 @@
           <Property Name="Modified" Type="varchar" MaxLength="1" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
-          <Property Name="UpdateDate" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="User">
+        <EntityType Name="sysdiagrams">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="50" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
-          <Property Name="Surname" Type="varchar" MaxLength="50" />
-          <Property Name="Password" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="Company" Type="varchar" MaxLength="50" />
-          <Property Name="Telephone" Type="varchar" MaxLength="50" />
-          <Property Name="Status" Type="varchar" MaxLength="50" />
-          <Property Name="Admin" Type="varchar" MaxLength="50" />
-          <Property Name="RegisterDate" Type="datetime" />
-          <Property Name="ExpireDate" Type="datetime" />
-          <Property Name="UpdateBy" Type="varchar" MaxLength="50" />
-          <Property Name="UpdateDate" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_DocumentArea_DocumentDetail">
           <End Role="DocumentDetail" Type="Self.DocumentDetail" Multiplicity="1" />
@@ -114,10 +105,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DocumentDetail_DocumentInfo">
-          <End Role="DocumentInfo" Type="Self.DocumentInfo" Multiplicity="1" />
+          <End Role="DocumentInfoes" Type="Self.DocumentInfoes" Multiplicity="1" />
           <End Role="DocumentDetail" Type="Self.DocumentDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DocumentInfo">
+            <Principal Role="DocumentInfoes">
               <PropertyRef Name="DocId" />
             </Principal>
             <Dependent Role="DocumentDetail">
@@ -143,15 +134,15 @@
           <EntitySet Name="AccTitleDict" EntityType="Self.AccTitleDict" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentArea" EntityType="Self.DocumentArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentDetail" EntityType="Self.DocumentDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DocumentInfo" EntityType="Self.DocumentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentInfoes" EntityType="Self.DocumentInfoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OCRResult" EntityType="Self.OCRResult" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_DocumentArea_DocumentDetail" Association="Self.FK_DocumentArea_DocumentDetail">
             <End Role="DocumentDetail" EntitySet="DocumentDetail" />
             <End Role="DocumentArea" EntitySet="DocumentArea" />
           </AssociationSet>
           <AssociationSet Name="FK_DocumentDetail_DocumentInfo" Association="Self.FK_DocumentDetail_DocumentInfo">
-            <End Role="DocumentInfo" EntitySet="DocumentInfo" />
+            <End Role="DocumentInfoes" EntitySet="DocumentInfoes" />
             <End Role="DocumentDetail" EntitySet="DocumentDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_OCRResult_DocumentDetail" Association="Self.FK_OCRResult_DocumentDetail">
@@ -191,7 +182,7 @@
           <Property Name="AreaPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDate" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DocumentDetail" Relationship="Self.FK_DocumentArea_DocumentDetail" FromRole="DocumentArea" ToRole="DocumentDetail" />
         </EntityType>
         <EntityType Name="DocumentDetail">
@@ -210,11 +201,11 @@
           <Property Name="PatternNo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="DocumentAreas" Relationship="Self.FK_DocumentArea_DocumentDetail" FromRole="DocumentDetail" ToRole="DocumentArea" />
-          <NavigationProperty Name="DocumentInfo" Relationship="Self.FK_DocumentDetail_DocumentInfo" FromRole="DocumentDetail" ToRole="DocumentInfo" />
-          <NavigationProperty Name="OCRResults" Relationship="Self.FK_OCRResult_DocumentDetail" FromRole="DocumentDetail" ToRole="OCRResult" />
+          <NavigationProperty Name="DocumentArea" Relationship="Self.FK_DocumentArea_DocumentDetail" FromRole="DocumentDetail" ToRole="DocumentArea" />
+          <NavigationProperty Name="DocumentInfoes" Relationship="Self.FK_DocumentDetail_DocumentInfo" FromRole="DocumentDetail" ToRole="DocumentInfoes" />
+          <NavigationProperty Name="OCRResult" Relationship="Self.FK_OCRResult_DocumentDetail" FromRole="DocumentDetail" ToRole="OCRResult" />
         </EntityType>
-        <EntityType Name="DocumentInfo">
+        <EntityType Name="DocumentInfoes">
           <Key>
             <PropertyRef Name="DocId" />
           </Key>
@@ -223,8 +214,8 @@
           <Property Name="FileName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="FilePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreateDate" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="DocumentDetails" Relationship="Self.FK_DocumentDetail_DocumentInfo" FromRole="DocumentInfo" ToRole="DocumentDetail" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentDetail" Relationship="Self.FK_DocumentDetail_DocumentInfo" FromRole="DocumentInfoes" ToRole="DocumentDetail" />
         </EntityType>
         <EntityType Name="OCRResult">
           <Key>
@@ -242,27 +233,18 @@
           <Property Name="Modified" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDate" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DocumentDetail" Relationship="Self.FK_OCRResult_DocumentDetail" FromRole="OCRResult" ToRole="DocumentDetail" />
         </EntityType>
-        <EntityType Name="User">
+        <EntityType Name="sysdiagrams">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RegisterDate" Type="DateTime" Precision="3" />
-          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UpdateDate" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_DocumentArea_DocumentDetail">
           <End Role="DocumentDetail" Type="Self.DocumentDetail" Multiplicity="1" />
@@ -279,10 +261,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DocumentDetail_DocumentInfo">
-          <End Role="DocumentInfo" Type="Self.DocumentInfo" Multiplicity="1" />
+          <End Role="DocumentInfoes" Type="Self.DocumentInfoes" Multiplicity="1" />
           <End Role="DocumentDetail" Type="Self.DocumentDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DocumentInfo">
+            <Principal Role="DocumentInfoes">
               <PropertyRef Name="DocId" />
             </Principal>
             <Dependent Role="DocumentDetail">
@@ -304,24 +286,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ScorelinkEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AccTitleDicts" EntityType="Self.AccTitleDict" />
-          <EntitySet Name="DocumentAreas" EntityType="Self.DocumentArea" />
-          <EntitySet Name="DocumentDetails" EntityType="Self.DocumentDetail" />
-          <EntitySet Name="DocumentInfoes" EntityType="Self.DocumentInfo" />
-          <EntitySet Name="OCRResults" EntityType="Self.OCRResult" />
-          <EntitySet Name="Users" EntityType="Self.User" />
+        <EntityContainer Name="ScorelinkEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccTitleDict" EntityType="Self.AccTitleDict" />
+          <EntitySet Name="DocumentArea" EntityType="Self.DocumentArea" />
+          <EntitySet Name="DocumentDetail" EntityType="Self.DocumentDetail" />
+          <EntitySet Name="DocumentInfoes" EntityType="Self.DocumentInfoes" />
+          <EntitySet Name="OCRResult" EntityType="Self.OCRResult" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <AssociationSet Name="FK_DocumentArea_DocumentDetail" Association="Self.FK_DocumentArea_DocumentDetail">
-            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
-            <End Role="DocumentArea" EntitySet="DocumentAreas" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetail" />
+            <End Role="DocumentArea" EntitySet="DocumentArea" />
           </AssociationSet>
           <AssociationSet Name="FK_DocumentDetail_DocumentInfo" Association="Self.FK_DocumentDetail_DocumentInfo">
-            <End Role="DocumentInfo" EntitySet="DocumentInfoes" />
-            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
+            <End Role="DocumentInfoes" EntitySet="DocumentInfoes" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_OCRResult_DocumentDetail" Association="Self.FK_OCRResult_DocumentDetail">
-            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
-            <End Role="OCRResult" EntitySet="OCRResults" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetail" />
+            <End Role="OCRResult" EntitySet="OCRResult" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -329,8 +311,8 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ScorelinkModelStoreContainer" CdmEntityContainer="ScorelinkEntities">
-          <EntitySetMapping Name="AccTitleDicts">
+        <EntityContainerMapping StorageEntityContainer="ScorelinkModelStoreContainer" CdmEntityContainer="ScorelinkEntities1">
+          <EntitySetMapping Name="AccTitleDict">
             <EntityTypeMapping TypeName="ScorelinkModel.AccTitleDict">
               <MappingFragment StoreEntitySet="AccTitleDict">
                 <ScalarProperty Name="AccNo" ColumnName="AccNo" />
@@ -342,7 +324,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DocumentAreas">
+          <EntitySetMapping Name="DocumentArea">
             <EntityTypeMapping TypeName="ScorelinkModel.DocumentArea">
               <MappingFragment StoreEntitySet="DocumentArea">
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
@@ -359,7 +341,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DocumentDetails">
+          <EntitySetMapping Name="DocumentDetail">
             <EntityTypeMapping TypeName="ScorelinkModel.DocumentDetail">
               <MappingFragment StoreEntitySet="DocumentDetail">
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
@@ -377,8 +359,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DocumentInfoes">
-            <EntityTypeMapping TypeName="ScorelinkModel.DocumentInfo">
-              <MappingFragment StoreEntitySet="DocumentInfo">
+            <EntityTypeMapping TypeName="ScorelinkModel.DocumentInfoes">
+              <MappingFragment StoreEntitySet="DocumentInfoes">
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
                 <ScalarProperty Name="FileUID" ColumnName="FileUID" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
@@ -388,7 +370,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OCRResults">
+          <EntitySetMapping Name="OCRResult">
             <EntityTypeMapping TypeName="ScorelinkModel.OCRResult">
               <MappingFragment StoreEntitySet="OCRResult">
                 <ScalarProperty Name="DocId" ColumnName="DocId" />
@@ -405,23 +387,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ScorelinkModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Admin" ColumnName="Admin" />
-                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ScorelinkModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -439,7 +412,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
